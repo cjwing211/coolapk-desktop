@@ -56,6 +56,9 @@ notify-rust = "4.18"
 tauri-plugin-macos-fps = "0.1"
 
 [target.'cfg(windows)'.dependencies]
+# 酷安 API 前的腾讯云 EdgeOne WAF 会按 TLS 指纹拦截 rustls 客户端（实测 403 空响应），
+# Windows 上改用 native-tls（schannel），指纹与普通 Windows 应用一致。
+reqwest = { version = "0.12", default-features = false, features = ["json", "cookies", "gzip", "multipart", "native-tls", "stream", "socks"] }
 winreg = "0.55"
 webview2-com = "0.38.2"
 windows = { version = "0.61", features = ["Data_Xml_Dom", "UI_Notifications", "Win32_Graphics_Gdi", "Win32_Storage_FileSystem", "Win32_Storage_Packaging_Appx", "Win32_System_Com", "Win32_System_Threading", "Win32_System_ProcessStatus", "Win32_UI_Controls_Dialogs"] }

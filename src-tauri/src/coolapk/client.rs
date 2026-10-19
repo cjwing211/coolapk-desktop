@@ -1036,6 +1036,11 @@ pub(crate) fn base_http_client_builder() -> reqwest::ClientBuilder {
         Some(config) => builder.use_preconfigured_tls(config),
         None => builder,
     };
+    // Windows：EdgeOne WAF 按 TLS 指纹拦截 rustls（实测 403 空响应），
+    // 显式切换到 schannel（native-tls）；同时固定 HTTP/1.1，
+    // 避开 reqwest h2 SETTINGS 帧指纹。API 与下载服务器均兼容 h1.1。
+    #[cfg(windows)]
+    let builder = builder.use_native_tls().http1_only();
     builder
 }
 
