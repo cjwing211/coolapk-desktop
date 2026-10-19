@@ -11,11 +11,13 @@ export interface AccountDeviceProfile {
   dateline: number;
 }
 
-// 型号来自随包 AppleDB 表；系统为兼容模板，Build 不伪装成真实设备构建号。
+// 桌面兜底使用安卓兼容模板：酷安 API 前的 EdgeOne WAF 会拦截 iPhone Mozilla 风格的
+// 桌面回退 UA（实测 403 空响应），Dalvik 安卓 UA 实测可通过。
 export const fallbackAccountDevice: AccountDeviceProfile = {
-  manufacturer: 'Apple', brand: 'Apple', model: 'iPhone19,7', build: 'compatibility',
-  userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) (#Build; Apple; iPhone19,7; compatibility; 27.0) +CoolMarket/16.2.0-2604201-universal CoolapkDesktopFallback',
-  label: 'iPhone 18 Pro Max', source: 'fallback', dateline: 0,
+  manufacturer: 'Xiaomi', brand: 'Redmi', model: '23113RKC6C', build: 'AQ3A.250226.002',
+  userAgent: 'Dalvik/2.1.0 (Linux; U; Android 16; 23113RKC6C Build/AQ3A.250226.002) (#Build; Redmi; 23113RKC6C; AQ3A.250226.002; 16) +CoolMarket/16.2.0-2604201-universal',
+  sdkInt: '36',
+  label: 'Redmi 23113RKC6C', source: 'fallback', dateline: 0,
 };
 
 const androidSdks: Record<string, string> = { '10': '29', '11': '30', '12': '31', '12.1': '32', '13': '33', '14': '34', '15': '35', '16': '36', '17': '37' };
